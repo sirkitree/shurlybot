@@ -23,6 +23,7 @@ function shurlybot_help($path, $arg) {
  */
 function shurlybot_irc_msg_channel($data, $from_query = FALSE) {
   $to = $from_query ? $data->nick : $data->channel;
+  $addressed = bot_name_regexp();
   
   // send url to be processed
   $address = "http://lbt.me/shurly/api/shorten?longUrl=";
