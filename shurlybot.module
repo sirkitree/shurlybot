@@ -32,8 +32,8 @@ function shurlybot_irc_msg_channel($data, $from_query = FALSE) {
   if (preg_match("/^${addressed}shurly\s+(.*?)[!\?\.]*\s*$/i", $data->message, $matches)) {
     $long_url = trim(drupal_strtolower($matches[2]));
     $message .= $long_url;
-    //$response = drupal_http_request($address . $long_url);
+    $response = drupal_http_request($message);
+    bot_message($to, print_r($response, true));
   }
   
-  bot_message($to, $message);
 }
