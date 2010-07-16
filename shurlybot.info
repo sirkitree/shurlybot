@@ -1,0 +1,7 @@
+; $Id: $
+name = ShUrly Bot
+package = ShURLy
+description = "Allows your bot to create short URLs through ShUrly."
+dependencies[] = bot
+dependencies[] = shurly
+core = 6.x

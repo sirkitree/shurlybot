@@ -1,0 +1,38 @@
+<?php
+// $Id: $
+
+/**
+ * Implementation of hook_help().
+ */
+function shurlybot_help($path, $arg) {
+  switch ($path) {
+    case 'irc:features':
+      return array(t('ShUrly'));
+    case 'irc:features#shurly':
+      return t('Shorten URLs with "BOTNAME: shurly <url>". Bot will reply with the shortened version of your URL.');
+  }
+}
+
+/**
+ * Listen for conversation directed at, or about, the bot.
+ *
+ * @param $data
+ *   The regular $data object prepared by the IRC library.
+ * @param $from_query
+ *   Boolean; whether this was a queried request.
+ */
+function shurlybot_irc_msg_channel($data, $from_query = FALSE) {
+  $to = $from_query ? $data->nick : $data->channel;
+  
+  // send url to be processed
+  $address = "http://lbt.me/shurly/api/shorten?longUrl=";
+  
+  // addressing is required. "bot_module: shurly foo?".
+  if (preg_match("/^${addressed}shurly\s+(.*?)[!\?\.]*\s*$/i", $data->message, $matches)) {
+    $long_url = trim(drupal_strtolower($matches[2]));
+    $message = $address . $long_url;
+    //$response = drupal_http_request($address . $long_url);
+  }
+  
+  bot_message($to, $message);
+}
