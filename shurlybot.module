@@ -26,14 +26,14 @@ function shurlybot_irc_msg_channel($data, $from_query = FALSE) {
   $addressed = bot_name_regexp();
   
   // send url to be processed
-  $message = "http://lbt.me/shurly/api/shorten?longUrl=";
+  $url = "http://lbt.me/shurly/api/shorten?longUrl=";
   
   // addressing is required. "bot_module: shurly foo?".
   if (preg_match("/^${addressed}shurly\s+(.*?)[!\?\.]*\s*$/i", $data->message, $matches)) {
     $long_url = trim(drupal_strtolower($matches[2]));
-    $message .= $long_url .'&format=txt';
-    $response = drupal_http_request($message);
-    bot_message($to, $response);
+    $url .= $long_url .'&format=txt';
+    $response = drupal_http_request($url);
+    bot_message($to, $response->data);
   }
   
 }
